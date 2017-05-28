@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 
+import in.net.rajeev.codegenerator.StreamClassGenerator;
+
 /**
  * @author Rajeev Sreedharan
  *
@@ -40,6 +42,9 @@ public class IntrospectionInputStream extends ObjectInputStream {
 		try {
 			cl = super.resolveClass(osc);
 		} catch (ClassNotFoundException e) {
+			// Class not found, continue with dummy class generation
+			StreamClassGenerator classGenerator = new StreamClassGenerator();
+			classGenerator.compileClass(classGenerator.generateClass(osc));
 		}
 		return cl;
 	}
